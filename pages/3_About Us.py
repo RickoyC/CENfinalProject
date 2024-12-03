@@ -1,53 +1,128 @@
 import streamlit as st
 import pathlib
-st.title("About Us")
-hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+# Page Configuration
+st.set_page_config(page_title="About Us - Dog Adoption", page_icon="🐶", layout="wide")
+
+# Centered Title
+st.markdown(
+    """
+    <h1 style="text-align: center;">About Us 🐾</h1>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <p style="text-align: center;">
+    Welcome to <b>Puppy Place</b>, where we believe every dog deserves a loving home. 
+    We're a dedicated team of animal lovers working to connect wonderful dogs with caring adopters like you.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+# About Us Section
+st.markdown(
+    """
+    <h2 style="text-align: center;">Our Mission</h2>
+    """,
+    unsafe_allow_html=True
+)
+st.markdown(
+    """
+    <p style="text-align: center;">
+    Our mission is simple: to rescue, rehabilitate, and rehome dogs in need. We work with shelters and foster networks 
+    across the country to provide these furry friends with the love and care they deserve.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <h2 style="text-align: center;">What We Do</h2>
+    """,
+    unsafe_allow_html=True
+)
+st.markdown(
+    """
+    <p style="text-align: center;">
+    - <b>Rescue:</b> Partnering with local shelters to save dogs at risk.<br>
+    - <b>Rehoming:</b> Matching dogs with the perfect families based on lifestyle and needs.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+# Team Section
+st.markdown(
+    """
+    <h2 style="text-align: center;">Meet Our Team</h2>
+    """,
+    unsafe_allow_html=True
+)
+st.markdown(
+    """
+    <p style="text-align: center;">
+    Our team consists of veterinarians, trainers, volunteers, and adoption specialists, all driven by 
+    a passion for animal welfare. We’re here to guide you through every step of the adoption process.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+# Call to Action
+st.markdown(
+    """
+    <h2 style="text-align: center;">Get Involved</h2>
+    """,
+    unsafe_allow_html=True
+)
+st.markdown(
+    """
+    <p style="text-align: center;">
+    Ready to make a difference? Here’s how you can help:<br>
+    - <b>Adopt:</b> Browse our available dogs and find your new best friend.<br>
+    - <b>Donate:</b> Support our efforts to save more dogs.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+# Contact Section
+st.markdown(
+    """
+    <h2 style="text-align: center;">Contact Us</h2>
+    """,
+    unsafe_allow_html=True
+)
+st.markdown(
+    """
+    <p style="text-align: center;">
+    Have questions or want to learn more? Reach out to us!<br>
+    - <b>Email:</b> 📧 MichaelSMills@jourrapide.com<br>
+    - <b>Phone:</b> 📞 +1 (201)-271-5719<br>
+    - <b>Address:</b> 🏠 3268 West Side Avenue, Union City, NJ 07087
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+# Footer
+st.markdown("---")
+st.markdown(
+    """
+    <p style="text-align: center;">
+    💜 Thank you for supporting dog adoption. Together, we can make a difference! 🐶
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+
 
 def load_css(file_path):
     with open(file_path) as f:
         st.html(f"<style>{f.read()}</style>")
 css_path = pathlib.Path("assets/css/style.css")
 load_css(css_path)
-
-# Add CSS for background, button area, and image slider styling
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-    background-image: url("https://wallpaperaccess.com/full/3019614.jpg");
-    background-size: cover;  
-    background-position: center;  
-    background-attachment: local; 
-}
-
-
-.textbox {
-    position: absolute;
-    top: 100px; /* Adjust the distance from the top */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 40px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adds shadow for better visibility */
-    z-index: 999; /* Ensure it's above other content */
-}
-</style>
-"""
-st.markdown(page_bg_img, unsafe_allow_html=True)
-
-# Add a textbox with "Adopt a Pet" text
-st.markdown(
-    """
-    <div class="textbox">
-        This is the "About Us" page!
-    </div>
-    """,
-    unsafe_allow_html=True
-)
