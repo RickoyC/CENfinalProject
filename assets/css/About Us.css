@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+body, html, div, h1, h2, p, span {
+    font-family: 'Playfair Display', serif;
+    font-optical-sizing: auto;
+    color: black;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+header {
+    visibility: hidden;
+}
+
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://wallpaperaccess.com/full/3019614.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: local;
+}
+
+
+
+body {
+    background-image: url("https://wallpaperaccess.com/full/3019614.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: local;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+p {
+    font-size: 25px;
+    line-height: 2;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: orange;
+    margin: 20px auto;
+    width: 80%;
+}
+
