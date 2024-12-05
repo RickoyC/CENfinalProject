@@ -113,6 +113,7 @@ if zip_code:
                 st.write(f'**Adoption Fee:** {dog["adoption_fee"]}')
                 if dog['rescue_id']:  # Only display rescue ID if it passes validation
                     st.write(f'**Rescue ID:** {dog["rescue_id"]}')
+                st.write(f'**URL:** [View More Info]({dog["url"]})')  # Clickable URL for dog
 
                 # Add a line separator at the end of each row
                 st.markdown("---")  # Horizontal line to separate rows
