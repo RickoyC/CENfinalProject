@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import json
 import re  # For pattern matching
+import time  # For time delay
 
 # Read the CSS file content in Adopt.css file
 with open("assets/css/Adopt.css", "r", encoding="utf-8") as file:
@@ -72,7 +73,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 # Get user input for zip code
 zip_code = st.text_input("Enter your zip code (5 digits):", "")
 
@@ -84,7 +84,11 @@ else:
         valid_dogs = []  # List to store valid dog results
         page = 1  # Start from the first page
 
-        # Loop until we have 20 valid results
+        # Display spinner after the zip code is entered and sleep for 5 seconds
+        with st.spinner('Fetching data...'):
+            time.sleep(5)  # Simulate a 5-second wait before data is fetched
+
+        # Fetch the data after the spinner disappears
         while len(valid_dogs) < 20:
             # Fetch the data based on the provided zip code and current page
             data = fetch_data(zip_code, page)
