@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+/* Applies the font globally (to everything except widgets). */
+body, html, div, h1, h2, p, span {
+    font-family: 'Playfair Display', serif;
+    font-optical-sizing: auto;
+    color: black;
+    font-size: 20px; /* Global font size */
+    line-height: 1.5;
+}
+
+/* Hides the Streamlit main menu at the top of the page. */
+#MainMenu {
+    visibility: hidden;
+}
+header {
+    visibility: hidden;
+}
+
+/* Applies a dog-themed background to the page. */
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://wallpaperaccess.com/full/3019614.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: local;
+}
