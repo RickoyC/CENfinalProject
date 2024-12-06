@@ -29,7 +29,7 @@ def fetch_data(zip_code, page):
         "fields": {
             "animals": [
                 "name", "ageString", "breedString", "sex",
-                "adoptionFeeString", "pictureThumbnailUrl", "rescueId", "url"
+                "adoptionFeeString", "pictureThumbnailUrl", "rescueId", "url", "sizeCurrent"
             ]  # Fields to return
         },
         "filters": {
@@ -105,6 +105,7 @@ else:
                     adoption_fee = attributes.get('adoptionFeeString', 'Unknown')
                     rescue_id = attributes.get('rescueId', None)  # Rescue ID
                     info_url = attributes.get('url', '#')  # Dog's webpage URL
+                    size = attributes.get('sizeCurrent', 'Not specified')  # Dog's current size
 
                     # Validate rescue ID
                     valid_rescue_id = rescue_id if is_valid_rescue_id(rescue_id) else None
@@ -119,7 +120,8 @@ else:
                             'photo': photo,
                             'adoption_fee': adoption_fee,
                             'rescue_id': valid_rescue_id,
-                            'url': info_url
+                            'url': info_url,
+                            'size': size  # Add size to the data
                         })
 
                     # Stop if we have enough valid results
@@ -145,6 +147,9 @@ else:
                     st.write(f'**Breed:** {dog["breed"] if dog["breed"] != "Unknown" else "Not specified"}')
                     st.write(f'**Gender:** {dog["gender"]}')
                     st.write(f'**Adoption Fee:** {dog["adoption_fee"]}')
+                    st.write(
+                        f'**Size:** {dog["size"] if dog["size"] != "Not specified" else "Size not available"} lbs' if
+                        dog["size"] != "Not specified" else "") # Display size
                     if dog['rescue_id']:  # Only display rescue ID if it passes validation
                         st.write(f'**Rescue ID:** {dog["rescue_id"]}')
                     st.write(f'**URL:** [View More Info]({dog["url"]})')  # Clickable URL for dog
