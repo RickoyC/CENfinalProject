@@ -6,7 +6,7 @@ import requests
 import streamlit as st
 
 css_path = pathlib.Path("assets/css/style.css")
-html_path = pathlib.Path("index.html")
+html_path = pathlib.Path("assets/html/index.html")
 
 # Read the CSS and HTML content
 with open(css_path, "r", encoding="utf-8") as css_file:
