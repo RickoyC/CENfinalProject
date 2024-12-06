@@ -58,14 +58,20 @@ st.markdown(
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
         text-align: center; 
         width: 50%; 
-        margin: 0 auto;">
+        margin: 0 auto;
+        position: relative;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png" 
+            style="position: absolute; left: -150px; top: 50%; transform: translateY(-50%); width: 80px; height: 80px;" />
         <h1 style="font-size: 30px; color: black;">
             Find Dogs for Adoption Near You
         </h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png" 
+            style="position: absolute; right: -150px; top: 50%; transform: translateY(-50%); width: 80px; height: 80px;" />
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 # Get user input for zip code
 zip_code = st.text_input("Enter your zip code (5 digits):", "")
