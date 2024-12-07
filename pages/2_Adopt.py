@@ -26,13 +26,13 @@ headers = {
 def fetch_data(zip_code, page, limit=10):
     # Prepare the data you want to send, including the zip code
     data = {
-    "data": {
-        "filterRadius": {
-            "miles": 35,
-            "postalcode": zip_code
+        "data": {
+            "filterRadius": {
+                "miles": 35,
+                "postalcode": zip_code
+            }
         }
     }
-}
 
     response = requests.post(url, headers=headers, data=json.dumps(data))
     return response.json()
@@ -76,17 +76,17 @@ if zip_code and not re.match(r"^\d{5}$", str(zip_code)):
     st.error("Please enter a valid 5-digit zip code.")
 else:
     if zip_code:
-        # instead of forcing 6 dogs per page, let the user decide
+        # Let the user decide the number of results per page
         page_size = st.selectbox("How many results do you want to show per page?", options=[3, 6, 12, 20])
         valid_dogs = []  # List to store valid dog results
+        all_breeds = set()  # Set to store unique breeds
 
-        # Display spinner after the zip code is entered and sleep for 5 seconds
-        with st.spinner("Fetching data..."): # Annoying, uncomment if I forgot to
-            time.sleep(5)  # Simulate a 5-second wait before data is fetched
+        # Display spinner after the zip code is entered and simulate a wait time
+        with st.spinner("Fetching data..."):
+            time.sleep(5)  # Simulate a wait time before data is fetched
 
-        # Fetch the data after the spinner disappears
+        # Fetch the data
         page_number = 1  # Start with the first page
-        # max_pages = 5  # Set a limit to avoid excessive API calls <----- already done with number of dogs
         while len(valid_dogs) < 20:
             data = fetch_data(
                 zip_code, page_number, limit=100
@@ -104,6 +104,10 @@ else:
                     adoption_fee = attributes.get("adoptionFeeString", "Unknown")
                     rescue_id = attributes.get("rescueId", None)  # Rescue ID
                     info_url = attributes.get("url", "#")  # Dog's webpage URL
+
+                    # Add breed to the set of all breeds
+                    if breed != "Unknown":
+                        all_breeds.add(breed)
 
                     # Fetch and normalize the size value
                     size = attributes.get("sizeCurrent", "Not specified")
@@ -137,6 +141,16 @@ else:
                 break
 
             page_number += 1  # Move to the next page
+
+        # Convert breeds to a sorted list for dropdown
+        all_breeds = sorted(all_breeds)
+
+        # Add a dropdown menu for selecting a breed
+        selected_breed = st.selectbox("Select a breed to filter by:", ["All Breeds"] + all_breeds)
+
+        # Filter the dogs by the selected breed if not "All Breeds"
+        if selected_breed != "All Breeds":
+            valid_dogs = [dog for dog in valid_dogs if dog["breed"] == selected_breed]
 
         # Pagination control
         num_pages = math.ceil(len(valid_dogs) / page_size)
