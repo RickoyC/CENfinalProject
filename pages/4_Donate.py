@@ -1,6 +1,8 @@
 import streamlit as st
 import pathlib
+
 st.title("Donate")
+st.header("All donations will go towards animal shelters")
 
 hide_st_style = """
             <style>
@@ -11,9 +13,12 @@ hide_st_style = """
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
+
 def load_css(file_path):
     with open(file_path) as f:
         st.html(f"<style>{f.read()}</style>")
+
+
 css_path = pathlib.Path("assets/css/style.css")
 load_css(css_path)
 
@@ -44,11 +49,22 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Add a textbox with "Adopt a Pet" text
-st.markdown(
-    """
-    <div class="textbox">
-        This is the donation page!
-    </div>
-    """,
-    unsafe_allow_html=True
+# st.markdown(
+#     """
+#     <div class="textbox">
+#         This is the donation page!
+#     </div>
+#     """,
+#     unsafe_allow_html=True,
+# )
+
+fName: list[str] = st.text_input("Full name:", placeholder="First Last").split()
+bAddress: str = st.text_input("Enter your billing address as it appears on the card")
+ccNumber: list[str] = st.text_input("Credit Card:").replace("-", " ").split()
+cvc = st.text_input(
+    "Enter the Card Verification Number (CVC)", type="password", placeholder="***"
 )
+amount = st.text_input("Please enter amount to donate:")
+
+if fName and bAddress and ccNumber and cvc:
+    st.success(f"Thank you, {fName[0]}, {fName[1]} for donating ${int(amount) ** 2}")
