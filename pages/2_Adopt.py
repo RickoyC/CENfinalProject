@@ -79,7 +79,7 @@ st.markdown(
 
 
 # Get user input for zip code
-zip_code = st.number_input("Enter your zip code (5 digits):", max_value=99999, step=1)
+zip_code = st.text_input("Enter your zip code (5 digits):", "")
 
 # Validate the zip code (must be exactly 5 digits)
 if zip_code and not re.match(r"^\d{5}$", str(zip_code)):
@@ -87,12 +87,13 @@ if zip_code and not re.match(r"^\d{5}$", str(zip_code)):
 else:
     if zip_code:
         # instead of forcing 6 dogs per page, let the user decide
-        page_size = st.selectbox("Show", options=[3, 6, 12, 20])
+        page_size = st.selectbox("How many results do you want to show per page?", options=[3, 6, 12, 20])
         valid_dogs = []  # List to store valid dog results
 
         # Display spinner after the zip code is entered and sleep for 5 seconds
-        # with st.spinner("Fetching data..."): # Annoying, uncomment if I forgot to
-        # time.sleep(5)  # Simulate a 5-second wait before data is fetched
+        with st.spinner("Fetching data..."): # Annoying, uncomment if I forgot to
+            time.sleep(5)  # Simulate a 5-second wait before data is fetched
+
         # Fetch the data after the spinner disappears
         page_number = 1  # Start with the first page
         # max_pages = 5  # Set a limit to avoid excessive API calls <----- already done with number of dogs
@@ -113,9 +114,13 @@ else:
                     adoption_fee = attributes.get("adoptionFeeString", "Unknown")
                     rescue_id = attributes.get("rescueId", None)  # Rescue ID
                     info_url = attributes.get("url", "#")  # Dog's webpage URL
-                    size = attributes.get(
-                        "sizeCurrent", "Not specified"
-                    )  # Dog's current size
+
+                    # Fetch and normalize the size value
+                    size = attributes.get("sizeCurrent", "Not specified")
+                    if isinstance(size, (int, float)):  # Ensure it's numeric before rounding
+                        size = round(size, 1)
+                    else:
+                        size = "Not specified"  # Default for non-numeric or missing sizes
 
                     # Validate rescue ID
                     valid_rescue_id = (
