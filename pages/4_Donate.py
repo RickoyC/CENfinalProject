@@ -1,8 +1,6 @@
 import streamlit as st
 import pathlib
 
-st.title("Donate")
-st.header("All donations will go towards animal shelters")
 
 hide_st_style = """
             <style>
@@ -47,6 +45,9 @@ page_bg_img = """
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
+
+st.title("Donate")
+st.header("All donations will go towards animal shelters")
 
 # Add a textbox with "Adopt a Pet" text
 # st.markdown(
