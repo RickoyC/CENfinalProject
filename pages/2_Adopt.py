@@ -26,23 +26,13 @@ headers = {
 def fetch_data(zip_code, page, limit=10):
     # Prepare the data you want to send, including the zip code
     data = {
-        "limit": limit,  # Number of results to return
-        "page": page,  # Page number
-        "fields": {
-            "animals": [
-                "name",
-                "ageString",
-                "breedPrimary",
-                "sex",
-                "adoptionFeeString",
-                "pictureThumbnailUrl",
-                "rescueId",
-                "url",
-                "sizeCurrent",
-            ]  # Fields to return
-        },
-        "filters": {"location": {"zip": zip_code}},
+    "data": {
+        "filterRadius": {
+            "miles": 35,
+            "postalcode": zip_code
+        }
     }
+}
 
     response = requests.post(url, headers=headers, data=json.dumps(data))
     return response.json()
