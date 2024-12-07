@@ -32,7 +32,7 @@ def fetch_data(zip_code, page, limit=10):
             "animals": [
                 "name",
                 "ageString",
-                "breedString",
+                "breedPrimary",
                 "sex",
                 "adoptionFeeString",
                 "pictureThumbnailUrl",
@@ -108,7 +108,7 @@ else:
                     attributes = animal["attributes"]
                     name = attributes.get("name", "Unknown")
                     age = attributes.get("ageString", "Unknown")
-                    breed = attributes.get("breedString", "Unknown")
+                    breed = attributes.get("breedPrimary", "Unknown")
                     gender = attributes.get("sex", "Not specified")  # Male or Female
                     photo = attributes.get("pictureThumbnailUrl")  # Thumbnail URL
                     adoption_fee = attributes.get("adoptionFeeString", "Unknown")
