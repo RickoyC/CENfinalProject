@@ -3,6 +3,7 @@ import requests
 import json
 import re  # For pattern matching
 import math
+import time  # For time delay
 
 # Read the CSS file content in Adopt.css file
 with open("assets/css/Adopt.css", "r", encoding="utf-8") as file:
@@ -81,39 +82,50 @@ else:
         page_size = 6
         valid_dogs = []  # List to store valid dog results
 
-        # Fetch the data for the first page
-        data = fetch_data(zip_code, 1, limit=100)  # Fetch a larger batch to paginate locally
+        # Display spinner after the zip code is entered and sleep for 5 seconds
+        with st.spinner('Fetching data...'):
+            time.sleep(5)  # Simulate a 5-second wait before data is fetched
+        # Fetch the data after the spinner disappears
+        page_number = 1  # Start with the first page
+        max_pages = 5  # Set a limit to avoid excessive API calls
+        while len(valid_dogs) < 20 and page_number <= max_pages:
+            data = fetch_data(zip_code, page_number, limit=100)  # Fetch data for the current page
 
-        # Check if there is any data returned
-        if 'data' in data and data['data']:
-            for animal in data['data']:
-                attributes = animal['attributes']
-                name = attributes.get('name', 'Unknown')
-                age = attributes.get('ageString', 'Unknown')
-                breed = attributes.get('breedString', 'Unknown')
-                gender = attributes.get('sex', 'Not specified')  # Male or Female
-                photo = attributes.get('pictureThumbnailUrl')  # Thumbnail URL
-                adoption_fee = attributes.get('adoptionFeeString', 'Unknown')
-                rescue_id = attributes.get('rescueId', None)  # Rescue ID
-                info_url = attributes.get('url', '#')  # Dog's webpage URL
-                size = attributes.get('sizeCurrent', 'Not specified')  # Dog's current size
+            # Check if the API returned data
+            if 'data' in data and data['data']:
+                for animal in data['data']:
+                    attributes = animal['attributes']
+                    name = attributes.get('name', 'Unknown')
+                    age = attributes.get('ageString', 'Unknown')
+                    breed = attributes.get('breedString', 'Unknown')
+                    gender = attributes.get('sex', 'Not specified')  # Male or Female
+                    photo = attributes.get('pictureThumbnailUrl')  # Thumbnail URL
+                    adoption_fee = attributes.get('adoptionFeeString', 'Unknown')
+                    rescue_id = attributes.get('rescueId', None)  # Rescue ID
+                    info_url = attributes.get('url', '#')  # Dog's webpage URL
+                    size = attributes.get('sizeCurrent', 'Not specified')  # Dog's current size
 
-                # Validate rescue ID
-                valid_rescue_id = rescue_id if is_valid_rescue_id(rescue_id) else None
+                    # Validate rescue ID
+                    valid_rescue_id = rescue_id if is_valid_rescue_id(rescue_id) else None
 
-                # Check if the dog has a valid photo
-                if photo and photo.strip():
-                    valid_dogs.append({
-                        'name': name,
-                        'age': age,
-                        'breed': breed,
-                        'gender': gender,
-                        'photo': photo,
-                        'adoption_fee': adoption_fee,
-                        'rescue_id': valid_rescue_id,
-                        'url': info_url,
-                        'size': size  # Add size to the data
-                    })
+                    # Check if the dog has a valid photo
+                    if photo and photo.strip():
+                        valid_dogs.append({
+                            'name': name,
+                            'age': age,
+                            'breed': breed,
+                            'gender': gender,
+                            'photo': photo,
+                            'adoption_fee': adoption_fee,
+                            'rescue_id': valid_rescue_id,
+                            'url': info_url,
+                            'size': size  # Add size to the data
+                        })
+            else:
+                # Break if no data is returned for the current page
+                break
+
+            page_number += 1  # Move to the next page
 
         # Pagination control
         num_pages = math.ceil(len(valid_dogs) / page_size)
