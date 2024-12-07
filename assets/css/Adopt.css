@@ -24,3 +24,10 @@ header {
     background-position: center;
     background-attachment: local;
 }
+
+/* For general text below the title */
+.subtitle-text {
+    color: #f80000; /* Set to gray or your preferred color */
+    font-size: 20px;
+    text-align: center;
+}

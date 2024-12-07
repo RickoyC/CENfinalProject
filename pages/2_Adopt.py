@@ -60,13 +60,13 @@ st.markdown(
         <h1 style="font-size: 30px; color: black;">
             Find Dogs for Adoption Near You
         </h1>
+        <div class="subtitle-text">Find dogs 35 miles from your zip code</div>
         <img src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png" 
             style="position: absolute; right: -150px; top: 50%; transform: translateY(-50%); width: 80px; height: 80px;" />
     </div>
     """,
     unsafe_allow_html=True,
 )
-
 
 # Get user input for zip code
 zip_code = st.text_input("Enter your zip code (5 digits):", "")
