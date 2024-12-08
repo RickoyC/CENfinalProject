@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_extras.stylable_container import stylable_container
+
 import requests
 import json
 import re  # For pattern matching
@@ -74,7 +74,7 @@ st.markdown(
         <h1 style="font-size: 30px; color: black;">
             Find Dogs for Adoption Near You
         </h1>
-        <div class="subtitle-text">Find dogs 35 miles from your zip code</div>
+        <div class="subtitle-text">Find dogs 10-50 miles from your zip code</div>
         <img src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png" 
             style="position: absolute; right: -150px; top: 50%; transform: translateY(-50%); width: 80px; height: 80px;" />
     </div>
@@ -83,7 +83,7 @@ st.markdown(
 )
 
 # Get user input for zip code
-zip_code = st.text_input("Enter your zip code (5 digits):", None)
+zip_code = st.text_input(" ### Enter your zip code (5 digits):", None)
 
 # Validate the zip code (must be exactly 5 digits)
 if zip_code and not re.match(r"^\d{5}$", str(zip_code)):
@@ -92,11 +92,11 @@ else:
     if zip_code:
         # Let the user decide the number of results per page
         page_size = st.selectbox(
-            "How many results do you want to show per page?", options=[3, 6, 12, 20]
+            "### How many results do you want to show per page?", options=[3, 6, 12, 20]
         )
 
         distance: int = st.selectbox(
-            "Distance", options=[35, 10, 20, 50]
+            "### Distance", options=[35, 10, 20, 50]
         )  # TODO: How tf do I add this to the filter thing below instead of having this here?
 
         valid_dogs = []  # List to store valid dog results
@@ -161,6 +161,10 @@ else:
                                 "rescue_id": valid_rescue_id,
                                 "url": info_url,
                                 "size": size,  # Add size to the data
+                                "isDogsOk": attributes.get("isDogsOk", False),
+                                "isCatsOk": attributes.get("isCatsOk", False),
+                                "isHousetrained": attributes.get("isHousetrained", False),
+                                "energyLevel": attributes.get("energyLevel", "Unknown"),
                             }
                         )
             else:
@@ -172,11 +176,18 @@ else:
         # Convert breeds to a sorted list for dropdown
         all_breeds = sorted(all_breeds)
 
-        # Add an expander to hold the entire filters list
-        with st.expander("Filters List"):
+        # Define the checkboxes outside the expander to ensure they're always available
+        st.write("Other Filters:")
+        good_with_dogs = st.checkbox("Good with other Dogs", key="good_with_dogs")
+        good_with_cats = st.checkbox("Good with Cats", key="good_with_cats")
+        house_trained = st.checkbox("House trained", key="house_trained")
+        high_energy = st.checkbox("High energy level", key="high_energy")
+
+        # Add the expander and filters inside it
+        with st.expander("### Filters List"):
             st.markdown("### Apply Filters")
 
-            # Create dropdowns for each filter with unique keys
+            # Other filter options inside the expander
             sex_filter: str = st.selectbox(
                 "Sex:", ["Any", "Male", "Female"], key="sex_filter"
             )
@@ -186,7 +197,6 @@ else:
                 key="age_filter",
             )
 
-            # Add breed filter inside the expander, same functionality as the previous breed filter
             breed_filter: str = st.selectbox(
                 "Breed:",
                 ["All Breeds"] + all_breeds,  # Dynamically populated list of breeds
@@ -199,36 +209,50 @@ else:
                 key="coat_length_filter",
             )
 
-            distance: int = st.selectbox(
-                "Distance", options=[35, 10, 20, 50], key="Distance_filter"
-            )
+        # Now apply the filters to the dogs
+        filtered_dogs = valid_dogs if valid_dogs else []
 
-            # Apply the sex filter if not "Any"
-            if sex_filter != "Any":
-                valid_dogs = [dog for dog in valid_dogs if dog["gender"] == sex_filter]
+        # Apply the sex filter if not "Any"
+        if sex_filter != "Any":
+            filtered_dogs = [dog for dog in filtered_dogs if dog["gender"] == sex_filter]
 
-            # Apply the age filter if not "Any"
-            if ageGroup_filter != "Any":
-                valid_dogs = [
-                    dog for dog in valid_dogs if dog["ageGroup"] == ageGroup_filter
-                ]
+        # Apply the age filter if not "Any"
+        if ageGroup_filter != "Any":
+            filtered_dogs = [
+                dog for dog in filtered_dogs if dog["ageGroup"] == ageGroup_filter
+            ]
 
-            # Filter the dogs by the selected breed if not "All Breeds"
-            if breed_filter != "All Breeds":
-                valid_dogs = [dog for dog in valid_dogs if dog["breed"] == breed_filter]
+        # Filter the dogs by the selected breed if not "All Breeds"
+        if breed_filter != "All Breeds":
+            filtered_dogs = [dog for dog in filtered_dogs if dog["breed"] == breed_filter]
 
-            # Apply the coat length filter if not "Any"
-            if coat_length_filter != "Any":
-                valid_dogs = [
-                    dog for dog in valid_dogs if dog["coatLength"] == coat_length_filter
-                ]
+        # Apply the coat length filter if not "Any"
+        if coat_length_filter != "Any":
+            filtered_dogs = [
+                dog for dog in filtered_dogs if dog["coatLength"] == coat_length_filter
+            ]
+
+        # If there are no filtered dogs, display a message
+        if len(filtered_dogs) == 0:
+            st.write("No dogs available for the selected filters.")
+
 
         # Display filtered results
         filtered_dogs = valid_dogs if valid_dogs else []
 
+        # Now you can move the filter logic to where the actual filtering happens
+        if good_with_dogs:
+            filtered_dogs = [dog for dog in filtered_dogs if dog.get("isDogsOk")]
+        if good_with_cats:
+            filtered_dogs = [dog for dog in filtered_dogs if dog.get("isCatsOk")]
+        if house_trained:
+            filtered_dogs = [dog for dog in filtered_dogs if dog.get("isHousetrained")]
+        if high_energy:
+            filtered_dogs = [dog for dog in filtered_dogs if dog.get("energyLevel") == "High"]
+
         if len(filtered_dogs) > 0:
             num_pages = math.ceil(len(filtered_dogs) / page_size)
-            page = st.selectbox("Page", range(1, num_pages + 1), key="pagination")
+            page = st.selectbox("### Page", range(1, num_pages + 1), key="pagination")
 
             start_idx = (page - 1) * page_size
             end_idx = start_idx + page_size
