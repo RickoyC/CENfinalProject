@@ -100,7 +100,7 @@ else:
 
         distance: int = st.slider(
             "### Distance",
-            value=10,
+            value=35,
             step=5,
             min_value=10,
             max_value=50,
