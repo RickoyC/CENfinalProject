@@ -82,8 +82,8 @@ else:
         all_breeds = set()  # Set to store unique breeds
 
         # Display spinner after the zip code is entered and simulate a wait time
-        # with st.spinner("Fetching data..."):
-        #     time.sleep(5)  # Simulate a wait time before data is fetched
+        with st.spinner("Fetching data..."):
+            time.sleep(5)  # Simulate a wait time before data is fetched
 
         # Fetch the data
         page_number = 1  # Start with the first page
