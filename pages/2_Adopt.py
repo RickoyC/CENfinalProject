@@ -14,7 +14,7 @@ def get_base64_image(image_path):
         return base64.b64encode(img_file.read()).decode()
 
 
-image_path = "assets/images/puppy place logo.pawsforlove.jpg"
+image_path = "assets/images/pawsforlove.jpg"
 # image_path = "assets\images\puppy place logo.jpg"
 base64_image = get_base64_image(image_path)
 
