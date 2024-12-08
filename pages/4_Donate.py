@@ -59,9 +59,7 @@ warning_placeholder = st.empty()
 # Display the warning message only if it hasn't been shown yet
 if not st.session_state.warning_shown:
     # Display the warning message
-    warning_placeholder.warning(
-        "This is a fake donation page, please do not enter any real credentials that can compromise your safety and privacy, thank you."
-    )
+    warning_placeholder.warning("### This is a fake donation page, please do not enter any real credentials that can compromise your safety and privacy, thank you.")
 
     # Wait for 2 seconds and then clear the warning
     time.sleep(2)
@@ -89,3 +87,20 @@ if amount <= 0:
 else:
     if fName and bAddress and ccNumber and cvc:
         st.success(f"### Thank you, {fName[0]}, {fName[1]} for donating ${amount:.2f}!")
+
+        # Ask the user if they would like to leave a rating after the donation
+        if st.button("Would you like to leave a rating?"):
+            # Pop-up for rating system (appear after donation)
+            st.write("Please rate your donation experience:")
+
+            # Create a rating system with a radio button
+            rating = st.radio("Rate your experience", options=[1, 2, 3, 4, 5], format_func=lambda x: f"{x} Stars")
+
+            # Handle the rating submission
+            if rating:
+                st.write(f"Thank you for your rating: {rating} Stars!")
+
+                # Optionally, collect a review text (to allow written feedback)
+                review = st.text_area("Leave a comment (optional):", placeholder="Your feedback here...")
+                if review:
+                    st.write("Thank you for your feedback!")
