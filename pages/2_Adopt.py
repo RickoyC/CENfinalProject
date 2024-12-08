@@ -81,6 +81,7 @@ else:
         valid_dogs = []  # List to store valid dog results
         all_breeds = set()  # Set to store unique breeds
 
+
         # Display spinner after the zip code is entered and simulate a wait time
         with st.spinner("Fetching data..."):
             time.sleep(5)  # Simulate a wait time before data is fetched
@@ -122,29 +123,25 @@ else:
                     )
 
                     # Check if the dog has a valid photo
-                    valid_dogs.append(
-                        {
-                            "name": name,
-                            "age": age,
-                            "breed": breed,
-                            "gender": gender,
-                            "photo": photo,
-                            "adoption_fee": adoption_fee,
-                            "rescue_id": valid_rescue_id,
-                            "url": info_url,
-                            "size": size,
-                            "coat_length": attributes.get("coatLength", "Unknown"),
-                            "isDogsOk": attributes.get("isDogsOk", False),
-                            "isCatsOk": attributes.get("isCatsOk", False),
-                            "isHousetrained": attributes.get("isHousetrained", False),
-                            "energyLevel": attributes.get("energyLevel", "Unknown"),
-                            # Fetch additional filters
-                        }
-                    )
+                    if photo and photo.strip():
+                        valid_dogs.append(
+                            {
+                                "name": name,
+                                "age": age,
+                                "breed": breed,
+                                "gender": gender,
+                                "photo": photo,
+                                "adoption_fee": adoption_fee,
+                                "rescue_id": valid_rescue_id,
+                                "url": info_url,
+                                "size": size,  # Add size to the data
+                            }
+                        )
             else:
+                # Break if no data is returned for the current page
                 break
 
-            page_number += 1
+            page_number += 1  # Move to the next page
 
         # Convert breeds to a sorted list for dropdown
         all_breeds = sorted(all_breeds)
@@ -153,56 +150,70 @@ else:
         with st.expander("Filters List"):
             st.markdown("### Apply Filters")
 
-            # Create dropdowns and checkboxes for filters
-            breed_filter = st.selectbox("Breed:", ["All Breeds"] + all_breeds, key="breed_filter")
-            coat_length_filter = st.selectbox("Coat Length:", ["Any", "Short", "Medium", "Long"], key="coat_length_filter")
-            good_with_kids = st.checkbox("Good with kids", key="good_with_kids")
-            good_with_dogs = st.checkbox("Good with other Dogs", key="good_with_dogs")
-            good_with_cats = st.checkbox("Good with Cats", key="good_with_cats")
-            house_trained = st.checkbox("House trained", key="house_trained")
-            high_energy = st.checkbox("High energy level", key="high_energy")
+            # Create dropdowns for each filter with unique keys
+            sex_filter = st.selectbox(
+                "Sex:",
+                ["Any", "Male", "Female"],
+                key="sex_filter"
+            )
+            age_filter = st.selectbox(
+                "General Age Preference:",
+                ["Any", "Puppy", "Young", "Adult", "Senior"],
+                key="age_filter"
+            )
 
-            # Apply filters dynamically
-            filtered_dogs = valid_dogs
+            # Add breed filter inside the expander, same functionality as the previous breed filter
+            breed_filter = st.selectbox(
+                "Breed:",
+                ["All Breeds"] + all_breeds,  # Dynamically populated list of breeds
+                key="breed_filter"
+            )
+
+            # Filter the dogs by the selected breed if not "All Breeds"
             if breed_filter != "All Breeds":
-                filtered_dogs = [dog for dog in filtered_dogs if dog["breed"] == breed_filter]
-            if coat_length_filter != "Any":
-                filtered_dogs = [dog for dog in filtered_dogs if dog["coat_length"] == coat_length_filter]
-            if good_with_kids:
-                filtered_dogs = [dog for dog in filtered_dogs if dog["isDogsOk"]]
-            if good_with_dogs:
-                filtered_dogs = [dog for dog in filtered_dogs if dog["isDogsOk"]]
-            if good_with_cats:
-                filtered_dogs = [dog for dog in filtered_dogs if dog["isCatsOk"]]
-            if house_trained:
-                filtered_dogs = [dog for dog in filtered_dogs if dog["isHousetrained"]]
-            if high_energy:
-                filtered_dogs = [dog for dog in filtered_dogs if dog["energyLevel"] == "High"]
+                valid_dogs = [dog for dog in valid_dogs if dog["breed"] == breed_filter]
 
-        # Pagination control
+            coat_length_filter = st.selectbox(
+                "Coat Length:",
+                ["Any", "Short", "Medium", "Long"],
+                key="coat_length_filter"
+            )
+
+        # Display filtered results
+        filtered_dogs = valid_dogs
         num_pages = math.ceil(len(filtered_dogs) / page_size)
         page = st.selectbox("Page", range(1, num_pages + 1), key="pagination")
 
-        # Display current page's dogs
         start_idx = (page - 1) * page_size
         end_idx = start_idx + page_size
         current_page_dogs = filtered_dogs[start_idx:end_idx]
 
         cols = st.columns(3)  # Create three columns
         for i, dog in enumerate(current_page_dogs):
-            with cols[i % 3]:
-                st.subheader(f'[Name: {dog["name"]}]({dog["url"]})')
+            with cols[i % 3]:  # Use modulo to cycle through columns
+                st.subheader(f'[Name: {dog["name"]}]({dog["url"]})')  # Name with link
                 if dog["photo"]:
-                    st.image(dog["photo"], caption=dog["name"], use_container_width=True)
-                st.write(f'**Age:** {dog["age"]}')
-                st.write(f'**Breed:** {dog["breed"]}')
+                    st.image(
+                        dog["photo"], caption=dog["name"], use_container_width=True
+                    )  # Display image
+                st.write(
+                    f'**Age:** {dog["age"] if dog["age"] != "Unknown" else "Not specified"}'
+                )
+                st.write(
+                    f'**Breed:** {dog["breed"] if dog["breed"] != "Unknown" else "Not specified"}'
+                )
                 st.write(f'**Gender:** {dog["gender"]}')
                 st.write(f'**Adoption Fee:** {dog["adoption_fee"]}')
-                st.write(f'**Size:** {dog["size"]} lbs' if dog["size"] != "Not specified" else "")
-                st.write(f'**Coat Length:** {dog["coat_length"]}')
-                if dog["rescue_id"]:
+                st.write(
+                    f'**Size:** {dog["size"] if dog["size"] != "Not specified" else "Size not available"} lbs'
+                    if dog["size"] != "Not specified"
+                    else ""
+                )  # Display size
+                if dog["rescue_id"]:  # Only display rescue ID if it passes validation
                     st.write(f'**Rescue ID:** {dog["rescue_id"]}')
-                st.write(f'**URL:** [View More Info]({dog["url"]})')
+                st.write(
+                    f'**URL:** [View More Info]({dog["url"]})'
+                )  # Clickable URL for dog
 
-        if not current_page_dogs:
-            st.write("No dogs available for this page.")
+            if not current_page_dogs:
+                st.write("No dogs available for this page.")
