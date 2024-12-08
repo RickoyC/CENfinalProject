@@ -162,7 +162,7 @@ else:
             )
             ageGroup_filter: str = st.selectbox(
                 "General Age Preference:",
-                ["Any", "Puppy", "Young", "Adult", "Senior"],
+                ["Any", "Baby", "Young Adult", "Senior"],
                 key="age_filter",
             )
 
