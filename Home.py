@@ -5,12 +5,14 @@ import requests
 # Importing a custom font
 import streamlit as st
 
+
 # Convert image to base64
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-image_path = "assets\images\puppy place logo.jpg"
+
+image_path = "assets/images/puppy place logo.jpg"
 base64_image = get_base64_image(image_path)
 
 # Embed in HTML
@@ -36,6 +38,7 @@ with open(html_path, "r", encoding="utf-8") as html_file:
 # TODO: Clean this up somehow
 st.html(f"<style>{css_content}</style>")
 st.markdown(html_content, unsafe_allow_html=True)
+
 
 # Find a way to integrate dog fact fetch textbox html + css into index and css files.
 # Find out how to make dog fact textbox render before footer.

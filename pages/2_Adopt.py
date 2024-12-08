@@ -6,12 +6,14 @@ import math
 import base64
 import time  # For time delay
 
+
 # Convert image to base64
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-image_path = "assets\images\puppy place logo.jpg"
+
+image_path = "assets/images/puppy place logo.jpg"
 base64_image = get_base64_image(image_path)
 
 # Embed in HTML
