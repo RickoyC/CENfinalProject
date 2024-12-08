@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_extras.stylable_container import stylable_container
 import requests
 import json
 import re  # For pattern matching
@@ -226,7 +225,6 @@ else:
         with st.container(border=True, key="dawg-container"):
             # Apparently, adding a key  ^^^^^^         here, adds
             # a css class of the same name prefixed with 'st-key-',
-            # Havent gotten it to work however
             cols = st.columns(3)  # Create three columns
             for i, dog in enumerate(current_page_dogs):
                 with cols[i % 3]:  # Use modulo to cycle through columns
