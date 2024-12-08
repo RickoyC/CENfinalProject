@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
-body, html, div, h1, h2, p, span {
+body, html, div, h1, h2, p, span, ul {
     font-family: 'Playfair Display', serif;
     font-optical-sizing: auto;
     color: black;
@@ -69,4 +69,3 @@ hr {
     margin: 20px auto;
     width: 80%;
 }
-

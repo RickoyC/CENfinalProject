@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_extras.stylable_container import stylable_container
 import requests
 import json
 import re  # For pattern matching
@@ -82,8 +83,8 @@ else:
         all_breeds = set()  # Set to store unique breeds
 
         # Display spinner after the zip code is entered and simulate a wait time
-        with st.spinner("Fetching data..."):
-            time.sleep(5)  # Simulate a wait time before data is fetched
+        # with st.spinner("Fetching data..."):
+        # time.sleep(5)  # Simulate a wait time before data is fetched
 
         # Fetch the data
         page_number = 1  # Start with the first page
@@ -216,32 +217,48 @@ else:
             st.write("No dogs available for the selected filters.")
             current_page_dogs = []
 
-        cols = st.columns(3)  # Create three columns
-        for i, dog in enumerate(current_page_dogs):
-            with cols[i % 3]:  # Use modulo to cycle through columns
-                st.subheader(f'[Name: {dog["name"]}]({dog["url"]})')  # Name with link
-                if dog["photo"]:
-                    st.image(
-                        dog["photo"], caption=dog["name"], use_container_width=True
-                    )  # Display image
-                st.write(
-                    f'**Age:** {dog["age"] if dog["age"] != "Unknown" else "Not specified"}'
-                )
-                st.write(
-                    f'**Breed:** {dog["breed"] if dog["breed"] != "Unknown" else "Not specified"}'
-                )
-                st.write(f'**Gender:** {dog["gender"]}')
-                st.write(f'**Adoption Fee:** {dog["adoption_fee"]}')
-                st.write(
-                    f'**Size:** {dog["size"] if dog["size"] != "Not specified" else "Size not available"} lbs'
-                    if dog["size"] != "Not specified"
-                    else ""
-                )  # Display size
-                if dog["rescue_id"]:  # Only display rescue ID if it passes validation
-                    st.write(f'**Rescue ID:** {dog["rescue_id"]}')
-                st.write(
-                    f'**URL:** [View More Info]({dog["url"]})'
-                )  # Clickable URL for dog
+        # AAAAAAAAAAAAAAAAAAAAAAAAH
+        # HOW THE FUUUCK DO I SET THE BACKGROUND FOR A CONTAINEEEEER
+        # IM GOING INSAAAAAAANE
+        # THIS SHOULD HAVE SOLVED IIIIIIT
+        # GODDAMMMIIIIIIT
+        # for experiment purposes, can delete JUST vvv THIS
+        with st.container(border=True, key="dawg-container"):
+            # Apparently, adding a key  ^^^^^^         here, adds
+            # a css class of the same name prefixed with 'st-key-',
+            # Havent gotten it to work however
+            cols = st.columns(3)  # Create three columns
+            for i, dog in enumerate(current_page_dogs):
+                with cols[i % 3]:  # Use modulo to cycle through columns
+                    st.subheader(
+                        f'[Name: {dog["name"]}]({dog["url"]})'
+                    )  # Name with link
+                    if dog["photo"]:
+                        st.image(
+                            dog["photo"],
+                            caption=dog["name"],
+                            use_container_width=True,
+                        )  # Display image
+                    st.write(
+                        f'**Age:** {dog["age"] if dog["age"] != "Unknown" else "Not specified"}'
+                    )
+                    st.write(
+                        f'**Breed:** {dog["breed"] if dog["breed"] != "Unknown" else "Not specified"}'
+                    )
+                    st.write(f'**Gender:** {dog["gender"]}')
+                    st.write(f'**Adoption Fee:** {dog["adoption_fee"]}')
+                    st.write(
+                        f'**Size:** {dog["size"] if dog["size"] != "Not specified" else "Size not available"} lbs'
+                        if dog["size"] != "Not specified"
+                        else ""
+                    )  # Display size
+                    if dog[
+                        "rescue_id"
+                    ]:  # Only display rescue ID if it passes validation
+                        st.write(f'**Rescue ID:** {dog["rescue_id"]}')
+                    st.write(
+                        f'**URL:** [View More Info]({dog["url"]})'
+                    )  # Clickable URL for dog
 
-            if not current_page_dogs:
-                st.write("No dogs available for this page.")
+                # if not current_page_dogs: # If page lacks dogs, it wont show
+                # st.write("No dogs available for this page.")
