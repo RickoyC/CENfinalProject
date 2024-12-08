@@ -132,6 +132,27 @@ header {
     line-height: 1.5; /* Improve readability */
 }
 
+.moreaboutus-info {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    margin: 20px auto; /* Center the box with margin */
+    max-width: 800px; /* Restrict the width */
+    text-align: center; /* Center align text */
+}
+
+.howtoadopt-header {
+    font-size: 24px; /* Header font size */
+    font-weight: bold; /* Bold header */
+    color: #333; /* Dark text color */
+    margin-bottom: 10px; /* Space below the header */
+}
+
+.howtoadopt-body {
+    font-size: 16px; /* Body text size */
+    color: #555; /* Medium gray text color */
+    line-height: 1.5; /* Improve readability */
+}
 .footer {
     background-color: rgba(0, 0, 0, 0.8); /* Dark background */
     color: white;
