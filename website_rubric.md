@@ -8,24 +8,24 @@
 - [ ] At least 1 button widget (https://docs.streamlit.io/library/api-reference/widgets/st.button)
 - [ ] At least 1 checkbox widget (https://docs.streamlit.io/library/api-reference/widgets/st.checkbox)
 - [ ] At least 2 of the essential feedback and messages boxes to the users:
-    - [ ] Success box - https://docs.streamlit.io/library/api-reference/status/st.success 
-    - [ ] Information box - https://docs.streamlit.io/library/api-reference/status/st.info
-    - [ ] Warning box - https://docs.streamlit.io/library/api-reference/status/st.warning
-    - [ ] Error box - https://docs.streamlit.io/library/api-reference/status/st.error
-    - [ ] Exception message (optional) - https://docs.streamlit.io/library/api-reference/status/st.exception
+    - [ ] [Success box](https://docs.streamlit.io/library/api-reference/status/st.success )
+    - [ ] [Information box](https://docs.streamlit.io/library/api-reference/status/st.info)
+    - [ ] [Warning box](https://docs.streamlit.io/library/api-reference/status/st.warning)
+    - [ ] [Error box](https://docs.streamlit.io/library/api-reference/status/st.error)
+    - [ ] [Exception message (optional)](https://docs.streamlit.io/library/api-reference/status/st.exception)
 - [ ] At least any 5 different widgets chosen from the following:
-    - [ ] Radio button - https://docs.streamlit.io/library/api-reference/widgets/st.radio 
-    - [ ] Selectbox - https://docs.streamlit.io/library/api-reference/widgets/st.selectbox
-    - [ ] Multiselect - https://docs.streamlit.io/library/api-reference/widgets/st.multiselect
-    - [ ] Slider - https://docs.streamlit.io/library/api-reference/widgets/st.slider
-    - [ ] Select-slider - https://docs.streamlit.io/library/api-reference/widgets/st.select_slider
-    - [ ] - [ ]Text input - https://docs.streamlit.io/library/api-reference/widgets/st.text_input
-    - [ ] Number input - https://docs.streamlit.io/library/api-reference/widgets/st.number_input
-    - [ ] - [ ]Text-area - https://docs.streamlit.io/library/api-reference/widgets/st.text_area
-    - [ ] Date input - https://docs.streamlit.io/library/api-reference/widgets/st.date_input
-    - [ ] - [ ]Time input - https://docs.streamlit.io/library/api-reference/widgets/st.time_input
-    - [ ] File uploader - https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
-    - [ ] Color - https://docs.streamlit.io/library/api-reference/widgets/st.color_picker
+    - [ ] [Radio button](https://docs.streamlit.io/library/api-reference/widgets/st.radio )
+    - [ ] [Selectbox](https://docs.streamlit.io/library/api-reference/widgets/st.selectbox)
+    - [ ] [Multiselect](https://docs.streamlit.io/library/api-reference/widgets/st.multiselect)
+    - [ ] [Slider](https://docs.streamlit.io/library/api-reference/widgets/st.slider)
+    - [ ] [Select-slider](https://docs.streamlit.io/library/api-reference/widgets/st.select_slider)
+    - [ ] [Text input](https://docs.streamlit.io/library/api-reference/widgets/st.text_input)
+    - [ ] [Number input](https://docs.streamlit.io/library/api-reference/widgets/st.number_input)
+    - [ ] [Text-area](https://docs.streamlit.io/library/api-reference/widgets/st.text_area)
+    - [ ] [Date input](https://docs.streamlit.io/library/api-reference/widgets/st.date_input)
+    - [ ] [Time input](https://docs.streamlit.io/library/api-reference/widgets/st.time_input)
+    - [ ] [File uploader](https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader)
+    - [ ] [Color](https://docs.streamlit.io/library/ap](eference/widgets/st.color_picker)
 - [ ] You may include a progress bar for certain components of your application; however, this is not mandatory
 - [ ] You may include media elements such as image, audio or video, which are not a requirement but can add to the overall harmony of the web application being developed
 - [ ] Streamlit allows you to display a sidebar, insert containers laid out as side-by-side columns, insert a multi-element container that can be expanded/collapsed, among many other features:
