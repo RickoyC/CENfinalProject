@@ -124,7 +124,6 @@ else:
                     attributes = animal["attributes"]
                     name = attributes.get("name", "Unknown")
                     age = attributes.get("ageString", "Unknown")
-                    ageGroup = attributes.get("ageGroup", "Unknown")
                     breed = attributes.get("breedPrimary", "Unknown")
                     gender = attributes.get("sex", "Not specified")  # Male or Female
                     coatLength = attributes.get("coatLength", "Unknown")
@@ -159,7 +158,6 @@ else:
                             {
                                 "name": name,
                                 "age": age,
-                                "ageGroup": ageGroup,
                                 "breed": breed,
                                 "gender": gender,
                                 "coatLength": coatLength,
@@ -200,11 +198,6 @@ else:
             sex_filter: str = st.selectbox(
                 "Sex:", ["Any", "Male", "Female"], key="sex_filter"
             )
-            ageGroup_filter: str = st.selectbox(
-                "General Age Preference:",
-                ["Any", "Baby", "Young Adult", "Senior"],
-                key="age_filter",
-            )
 
             breed_filter: str = st.selectbox(
                 "Breed:",
@@ -227,11 +220,7 @@ else:
                 dog for dog in filtered_dogs if dog["gender"] == sex_filter
             ]
 
-        # Apply the age filter if not "Any"
-        if ageGroup_filter != "Any":
-            filtered_dogs = [
-                dog for dog in filtered_dogs if dog["ageGroup"] == ageGroup_filter
-            ]
+
 
         # Filter the dogs by the selected breed if not "All Breeds"
         if breed_filter != "All Breeds":
@@ -244,13 +233,6 @@ else:
             filtered_dogs = [
                 dog for dog in filtered_dogs if dog["coatLength"] == coat_length_filter
             ]
-
-        # If there are no filtered dogs, display a message
-        if len(filtered_dogs) == 0:
-            st.write("No dogs available for the selected filters.")
-
-        # Display filtered results
-        filtered_dogs = valid_dogs if valid_dogs else []
 
         # Now you can move the filter logic to where the actual filtering happens
         if good_with_dogs:
