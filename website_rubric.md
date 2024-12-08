@@ -1,0 +1,35 @@
+- [ ] API requests: Fetch data from the selected APIs
+- [ ] At least 1 interactive table (https://docs.streamlit.io/library/api-reference/data/st.dataframe Links to an external site.)
+- [ ] At least 2 chart elements,  such as line, area or bar charts (matplotlib is allowed). To display:
+    - [ ] a line chart - https://docs.streamlit.io/library/api-reference/charts/st.line_chart 
+    - [ ] an area chart - https://docs.streamlit.io/library/api-reference/charts/st.area_chart
+    - [ ] a bar chart - https://docs.streamlit.io/library/api-reference/charts/st.bar_chart
+- [ ] At least 1 map with points marked on it (a simple map can be created using a [map](https://docs.streamlit.io/library/api-reference/charts/st.map) or a more complex [3d map](https://docs.streamlit.io/library/api-reference/charts/st.pydeck_chart)
+- [ ] At least 1 button widget (https://docs.streamlit.io/library/api-reference/widgets/st.button)
+- [ ] At least 1 checkbox widget (https://docs.streamlit.io/library/api-reference/widgets/st.checkbox)
+- [ ] At least 2 of the essential feedback and messages boxes to the users:
+    - [ ] Success box - https://docs.streamlit.io/library/api-reference/status/st.success 
+    - [ ] Information box - https://docs.streamlit.io/library/api-reference/status/st.info
+    - [ ] Warning box - https://docs.streamlit.io/library/api-reference/status/st.warning
+    - [ ] Error box - https://docs.streamlit.io/library/api-reference/status/st.error
+    - [ ] Exception message (optional) - https://docs.streamlit.io/library/api-reference/status/st.exception
+- [ ] At least any 5 different widgets chosen from the following:
+    - [ ] Radio button - https://docs.streamlit.io/library/api-reference/widgets/st.radio 
+    - [ ] Selectbox - https://docs.streamlit.io/library/api-reference/widgets/st.selectbox
+    - [ ] Multiselect - https://docs.streamlit.io/library/api-reference/widgets/st.multiselect
+    - [ ] Slider - https://docs.streamlit.io/library/api-reference/widgets/st.slider
+    - [ ] Select-slider - https://docs.streamlit.io/library/api-reference/widgets/st.select_slider
+    - [ ] - [ ]Text input - https://docs.streamlit.io/library/api-reference/widgets/st.text_input
+    - [ ] Number input - https://docs.streamlit.io/library/api-reference/widgets/st.number_input
+    - [ ] - [ ]Text-area - https://docs.streamlit.io/library/api-reference/widgets/st.text_area
+    - [ ] Date input - https://docs.streamlit.io/library/api-reference/widgets/st.date_input
+    - [ ] - [ ]Time input - https://docs.streamlit.io/library/api-reference/widgets/st.time_input
+    - [ ] File uploader - https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
+    - [ ] Color - https://docs.streamlit.io/library/api-reference/widgets/st.color_picker
+- [ ] You may include a progress bar for certain components of your application; however, this is not mandatory
+- [ ] You may include media elements such as image, audio or video, which are not a requirement but can add to the overall harmony of the web application being developed
+- [ ] Streamlit allows you to display a sidebar, insert containers laid out as side-by-side columns, insert a multi-element container that can be expanded/collapsed, among many other features:
+    - [ ] Sidebar - https://docs.streamlit.io/library/api-reference/layout/st.sidebar
+    - [ ] Columns - https://docs.streamlit.io/library/api-reference/layout/st.columns 
+    - [ ] Expander - https://docs.streamlit.io/library/api-reference/layout/st.expander 
+
