@@ -7,12 +7,15 @@ import math
 import base64
 import time  # For time delay
 
+
 # Convert image to base64
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-image_path = "assets\images\puppy place logo.jpg"
+
+image_path = "assets/images/puppy place logo.jpg"
+# image_path = "assets\images\puppy place logo.jpg"
 base64_image = get_base64_image(image_path)
 
 # Embed in HTML
@@ -95,8 +98,12 @@ else:
             "### How many results do you want to show per page?", options=[3, 6, 12, 20]
         )
 
-        distance: int = st.selectbox(
-            "### Distance", options=[35, 10, 20, 50]
+        distance: int = st.slider(
+            "### Distance",
+            value=10,
+            step=5,
+            min_value=10,
+            max_value=50,
         )  # TODO: How tf do I add this to the filter thing below instead of having this here?
 
         valid_dogs = []  # List to store valid dog results
@@ -163,7 +170,9 @@ else:
                                 "size": size,  # Add size to the data
                                 "isDogsOk": attributes.get("isDogsOk", False),
                                 "isCatsOk": attributes.get("isCatsOk", False),
-                                "isHousetrained": attributes.get("isHousetrained", False),
+                                "isHousetrained": attributes.get(
+                                    "isHousetrained", False
+                                ),
                                 "energyLevel": attributes.get("energyLevel", "Unknown"),
                             }
                         )
@@ -214,7 +223,9 @@ else:
 
         # Apply the sex filter if not "Any"
         if sex_filter != "Any":
-            filtered_dogs = [dog for dog in filtered_dogs if dog["gender"] == sex_filter]
+            filtered_dogs = [
+                dog for dog in filtered_dogs if dog["gender"] == sex_filter
+            ]
 
         # Apply the age filter if not "Any"
         if ageGroup_filter != "Any":
@@ -224,7 +235,9 @@ else:
 
         # Filter the dogs by the selected breed if not "All Breeds"
         if breed_filter != "All Breeds":
-            filtered_dogs = [dog for dog in filtered_dogs if dog["breed"] == breed_filter]
+            filtered_dogs = [
+                dog for dog in filtered_dogs if dog["breed"] == breed_filter
+            ]
 
         # Apply the coat length filter if not "Any"
         if coat_length_filter != "Any":
@@ -235,7 +248,6 @@ else:
         # If there are no filtered dogs, display a message
         if len(filtered_dogs) == 0:
             st.write("No dogs available for the selected filters.")
-
 
         # Display filtered results
         filtered_dogs = valid_dogs if valid_dogs else []
@@ -248,7 +260,9 @@ else:
         if house_trained:
             filtered_dogs = [dog for dog in filtered_dogs if dog.get("isHousetrained")]
         if high_energy:
-            filtered_dogs = [dog for dog in filtered_dogs if dog.get("energyLevel") == "High"]
+            filtered_dogs = [
+                dog for dog in filtered_dogs if dog.get("energyLevel") == "High"
+            ]
 
         if len(filtered_dogs) > 0:
             num_pages = math.ceil(len(filtered_dogs) / page_size)
