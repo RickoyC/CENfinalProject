@@ -3,7 +3,27 @@ import requests
 import json
 import re  # For pattern matching
 import math
+import base64
 import time  # For time delay
+
+# Convert image to base64
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+image_path = "assets\images\puppy place logo.jpg"
+base64_image = get_base64_image(image_path)
+
+# Embed in HTML
+st.markdown(
+    f"""
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src='data:image/png;base64,{base64_image}' width='100'>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 # Read the CSS file content in Adopt.css file
 with open("assets/css/Adopt.css", "r", encoding="utf-8") as file:
@@ -161,7 +181,7 @@ else:
             )
             ageGroup_filter: str = st.selectbox(
                 "General Age Preference:",
-                ["Any", "Puppy", "Young", "Adult", "Senior"],
+                ["Any", "Baby", "Young Adult", "Senior"],
                 key="age_filter",
             )
 
