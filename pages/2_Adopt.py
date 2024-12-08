@@ -81,6 +81,7 @@ else:
         valid_dogs = []  # List to store valid dog results
         all_breeds = set()  # Set to store unique breeds
 
+
         # Display spinner after the zip code is entered and simulate a wait time
         with st.spinner("Fetching data..."):
             time.sleep(5)  # Simulate a wait time before data is fetched
@@ -145,23 +146,48 @@ else:
         # Convert breeds to a sorted list for dropdown
         all_breeds = sorted(all_breeds)
 
-        # Add a dropdown menu for selecting a breed
-        selected_breed = st.selectbox("Select a breed to filter by:", ["All Breeds"] + all_breeds)
+        # Add an expander to hold the entire filters list
+        with st.expander("Filters List"):
+            st.markdown("### Apply Filters")
 
-        # Filter the dogs by the selected breed if not "All Breeds"
-        if selected_breed != "All Breeds":
-            valid_dogs = [dog for dog in valid_dogs if dog["breed"] == selected_breed]
+            # Create dropdowns for each filter with unique keys
+            sex_filter = st.selectbox(
+                "Sex:",
+                ["Any", "Male", "Female"],
+                key="sex_filter"
+            )
+            age_filter = st.selectbox(
+                "General Age Preference:",
+                ["Any", "Puppy", "Young", "Adult", "Senior"],
+                key="age_filter"
+            )
 
-        # Pagination control
-        num_pages = math.ceil(len(valid_dogs) / page_size)
-        page = st.selectbox("Page", range(1, num_pages + 1))
+            # Add breed filter inside the expander, same functionality as the previous breed filter
+            breed_filter = st.selectbox(
+                "Breed:",
+                ["All Breeds"] + all_breeds,  # Dynamically populated list of breeds
+                key="breed_filter"
+            )
 
-        # Display the current page's dogs
+            # Filter the dogs by the selected breed if not "All Breeds"
+            if breed_filter != "All Breeds":
+                valid_dogs = [dog for dog in valid_dogs if dog["breed"] == breed_filter]
+
+            coat_length_filter = st.selectbox(
+                "Coat Length:",
+                ["Any", "Short", "Medium", "Long"],
+                key="coat_length_filter"
+            )
+
+        # Display filtered results
+        filtered_dogs = valid_dogs
+        num_pages = math.ceil(len(filtered_dogs) / page_size)
+        page = st.selectbox("Page", range(1, num_pages + 1), key="pagination")
+
         start_idx = (page - 1) * page_size
         end_idx = start_idx + page_size
-        current_page_dogs = valid_dogs[start_idx:end_idx]
+        current_page_dogs = filtered_dogs[start_idx:end_idx]
 
-        # Display the results
         cols = st.columns(3)  # Create three columns
         for i, dog in enumerate(current_page_dogs):
             with cols[i % 3]:  # Use modulo to cycle through columns
@@ -185,9 +211,4 @@ else:
                 )  # Display size
                 if dog["rescue_id"]:  # Only display rescue ID if it passes validation
                     st.write(f'**Rescue ID:** {dog["rescue_id"]}')
-                st.write(
-                    f'**URL:** [View More Info]({dog["url"]})'
-                )  # Clickable URL for dog
-
-        if not current_page_dogs:
-            st.write("No dogs available for this page.")
+                st
