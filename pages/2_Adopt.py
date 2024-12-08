@@ -211,4 +211,9 @@ else:
                 )  # Display size
                 if dog["rescue_id"]:  # Only display rescue ID if it passes validation
                     st.write(f'**Rescue ID:** {dog["rescue_id"]}')
-                st
+                st.write(
+                    f'**URL:** [View More Info]({dog["url"]})'
+                )  # Clickable URL for dog
+
+            if not current_page_dogs:
+                st.write("No dogs available for this page.")
