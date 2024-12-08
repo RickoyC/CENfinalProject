@@ -102,6 +102,7 @@ else:
                     ageGroup = attributes.get("ageGroup", "Unknown")
                     breed = attributes.get("breedPrimary", "Unknown")
                     gender = attributes.get("sex", "Not specified")  # Male or Female
+                    coatLength = attributes.get("coatLength", "Unknown")
                     photo = attributes.get("pictureThumbnailUrl")  # Thumbnail URL
                     adoption_fee = attributes.get("adoptionFeeString", "Unknown")
                     rescue_id = attributes.get("rescueId", None)  # Rescue ID
@@ -132,6 +133,7 @@ else:
                                 "ageGroup": ageGroup,
                                 "breed": breed,
                                 "gender": gender,
+                                "coatLength": coatLength,
                                 "photo": photo,
                                 "adoption_fee": adoption_fee,
                                 "rescue_id": valid_rescue_id,
@@ -171,6 +173,12 @@ else:
                 key="breed_filter"
             )
 
+            coat_length_filter = st.selectbox(
+                "Coat Length:",
+                ["Any", "Short", "Medium", "Long"],
+                key="coat_length_filter"
+            )
+
             # Apply the sex filter if not "Any"
             if sex_filter != "Any":
                 valid_dogs = [dog for dog in valid_dogs if dog["gender"] == sex_filter]
@@ -183,11 +191,11 @@ else:
             if breed_filter != "All Breeds":
                 valid_dogs = [dog for dog in valid_dogs if dog["breed"] == breed_filter]
 
-            coat_length_filter = st.selectbox(
-                "Coat Length:",
-                ["Any", "Short", "Medium", "Long"],
-                key="coat_length_filter"
-            )
+            # Apply the coat length filter if not "Any"
+            if coat_length_filter != "Any":
+                valid_dogs = [dog for dog in valid_dogs if dog["coatLength"] == coat_length_filter]
+
+
 
         # Display filtered results
         filtered_dogs = valid_dogs if valid_dogs else []
