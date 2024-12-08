@@ -35,6 +35,28 @@ h1, h2 {
     font-weight: bold;
 }
 
+.textbox {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    margin: 20px auto; /* Center the box with margin */
+    max-width: 800px; /* Restrict the width */
+    text-align: center; /* Center align text */
+}
+
+.textbox_header {
+    font-size: 24px; /* Header font size */
+    font-weight: bold; /* Bold header */
+    color: #333; /* Dark text color */
+    margin-bottom: 10px; /* Space below the header */
+}
+
+.textbox_body {
+    font-size: 16px; /* Body text size */
+    color: #555; /* Medium gray text color */
+    line-height: 1.5; /* Improve readability */
+}
+
 p {
     font-size: 25px;
     line-height: 2;
