@@ -1,6 +1,24 @@
 import streamlit as st
+import base64
 import pathlib
 
+# Convert image to base64
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+image_path = "assets\images\puppy place logo.jpg"
+base64_image = get_base64_image(image_path)
+
+# Embed in HTML
+st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;">
+        <img src='data:image/png;base64,{base64_image}' width='100'>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # `pathlib` allows for cross-compatibility between loonix and wankdows
 css_path = pathlib.Path("assets/css/About Us.css")
