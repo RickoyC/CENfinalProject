@@ -17,7 +17,7 @@ header {
     visibility: hidden;
 }
 
-/* Applies a dog-themed background to the page. */
+/* Applies a background to the page. */
 [data-testid="stAppViewContainer"] {
     background-image: url("https://e0.pxfuel.com/wallpapers/841/663/desktop-wallpaper-solid-yellow-color-background-dark-yellow-co-cool-solid-yellow.jpg");
     background-size: cover;
@@ -46,3 +46,7 @@ header {
     color: white;
     margin: 0;
 }
+
+.stSelectbox select {
+            color: #f105d4;  /* Replace with the textColor value from config.toml */
+        }
