@@ -1,18 +1,16 @@
 import streamlit as st
 import pathlib
 
-# Read the CSS file content in About Us.css file
-with open("assets/css/About Us.css", "r", encoding="utf-8") as file:
-    css_content = file.read()
 
-# Read the HTML file content in About Us.html file
-with open("assets/html/About Us.html", "r", encoding="utf-8") as file:
-    html_content = file.read()
+# `pathlib` allows for cross-compatibility between loonix and wankdows
+css_path = pathlib.Path("assets/css/About Us.css")
+html_path = pathlib.Path("assets/html/About Us.html")
 
-# Display html content in the Streamlit app
+with open(css_path, "r", encoding="utf-8") as css_file:
+    css_content = css_file.read()
+
+with open(html_path, "r", encoding="utf-8") as html_file:
+    html_content = html_file.read()
+
 st.markdown(html_content, unsafe_allow_html=True)
-# Display css in the Streamlit app
 st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
-
-
-

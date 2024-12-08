@@ -82,6 +82,11 @@ header {
     z-index: 999; /* Ensure it's above other content */
 }
 
+.link {
+    font-size: 30px;
+    text-align: center;
+}
+
 /* New styles for the 'Why Choose Adoption?' section */
 .adoption-info {
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */

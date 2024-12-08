@@ -15,6 +15,10 @@
     </div>
     <!-- Below are the textboxes for various info -->
     <!-- !!! OLD COMMENT !!! In the HTML for the text use the code: <div class="textboxName-body">text</div> ... to add text in a textbox. -->
+        <div class="link">
+            <a href="http://localhost:8501/About_Us">About Us</a>
+            <!-- <a href="https://puppyplace.streamlit.app/Adopt">About Us</a> --> <!-- Again, uncomment for prod -->
+        </div>
     <!-- Add the new textbox for "Why Choose Adoption?" -->
     <div class="adoption-info">
       <div class="adoption-header">Why Choose Adoption?</div>
@@ -27,11 +31,16 @@
     <!-- Add new textbox for "How to Adopt?" -->
     <div class="howtoadopt-info">
       <div class="howtoadopt-header">How Do I Adopt?</div>
+            <div class="link">
+                <!-- <p>Check out our adoption page <a href="https://puppyplace.streamlit.app/Adopt">here</a></p> --> <!-- UNCOMMENT WHEN DEPLOYING TO PROD -->
+                <p><b>Check out our adoption page <a href="http://localhost:8501/Adopt">here</a></b></p> <!-- DELETE WHEN DEPLOYING TO PROD -->
+            </div> <!-- Make text not purple and also bigger; Could be placed on the end of the text box -->
       <div class="howtoadopt-body">
         <p>Explore the dogs that are available for adoption!</p>
         <p>When you're ready, submit your adoption application!</p>
         <p>Meet your new furry family member and bring joy to your home!</p>
         <p>Finally, complete the adoption and make it official!</p>
+                <!-- here -->
       </div>
     </div>
     <!-- TODO: Figure out how to incorporate dog fact fetcher/howtoadopt-info into this file -->

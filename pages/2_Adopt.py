@@ -23,16 +23,9 @@ headers = {
 
 
 # Function to fetch data based on zip code and page number
-def fetch_data(zip_code, page, limit=10):
+def fetch_data(zip_code, miles=35):
     # Prepare the data you want to send, including the zip code
-    data = {
-        "data": {
-            "filterRadius": {
-                "miles": 35,
-                "postalcode": zip_code
-            }
-        }
-    }
+    data = {"data": {"filterRadius": {"miles": miles, "postalcode": zip_code}}}
 
     response = requests.post(url, headers=headers, data=json.dumps(data))
     return response.json()
@@ -69,7 +62,7 @@ st.markdown(
 )
 
 # Get user input for zip code
-zip_code = st.text_input("Enter your zip code (5 digits):", "")
+zip_code = st.text_input("Enter your zip code (5 digits):", None)
 
 # Validate the zip code (must be exactly 5 digits)
 if zip_code and not re.match(r"^\d{5}$", str(zip_code)):
@@ -77,21 +70,25 @@ if zip_code and not re.match(r"^\d{5}$", str(zip_code)):
 else:
     if zip_code:
         # Let the user decide the number of results per page
-        page_size = st.selectbox("How many results do you want to show per page?", options=[3, 6, 12, 20])
+        page_size = st.selectbox(
+            "How many results do you want to show per page?", options=[3, 6, 12, 20]
+        )
+
+        distance: int = st.selectbox(
+            "Distance", options=[35, 10, 20, 50]
+        )  # TODO: How tf do I add this to the filter thing below instead of having this here?
+
         valid_dogs = []  # List to store valid dog results
         all_breeds = set()  # Set to store unique breeds
 
-
         # Display spinner after the zip code is entered and simulate a wait time
-        with st.spinner("Fetching data..."):
-            time.sleep(5)  # Simulate a wait time before data is fetched
+        # with st.spinner("Fetching data..."):
+        #     time.sleep(5)  # Simulate a wait time before data is fetched
 
         # Fetch the data
         page_number = 1  # Start with the first page
         while len(valid_dogs) < 20:
-            data = fetch_data(
-                zip_code, page_number, limit=100
-            )  # Fetch data for the current page
+            data = fetch_data(zip_code, distance)  # Fetch data for the current page
 
             # Check if the API returned data
             if "data" in data and data["data"]:
@@ -114,10 +111,14 @@ else:
 
                     # Fetch and normalize the size value
                     size = attributes.get("sizeCurrent", "Not specified")
-                    if isinstance(size, (int, float)):  # Ensure it's numeric before rounding
+                    if isinstance(
+                        size, (int, float)
+                    ):  # Ensure it's numeric before rounding
                         size = round(size, 1)
                     else:
-                        size = "Not specified"  # Default for non-numeric or missing sizes
+                        size = (
+                            "Not specified"  # Default for non-numeric or missing sizes
+                        )
 
                     # Validate rescue ID
                     valid_rescue_id = (
@@ -155,28 +156,30 @@ else:
             st.markdown("### Apply Filters")
 
             # Create dropdowns for each filter with unique keys
-            sex_filter = st.selectbox(
-                "Sex:",
-                ["Any", "Male", "Female"],
-                key="sex_filter"
+            sex_filter: str = st.selectbox(
+                "Sex:", ["Any", "Male", "Female"], key="sex_filter"
             )
-            ageGroup_filter = st.selectbox(
+            ageGroup_filter: str = st.selectbox(
                 "General Age Preference:",
                 ["Any", "Puppy", "Young", "Adult", "Senior"],
-                key="age_filter"
+                key="age_filter",
             )
 
             # Add breed filter inside the expander, same functionality as the previous breed filter
-            breed_filter = st.selectbox(
+            breed_filter: str = st.selectbox(
                 "Breed:",
                 ["All Breeds"] + all_breeds,  # Dynamically populated list of breeds
-                key="breed_filter"
+                key="breed_filter",
             )
 
-            coat_length_filter = st.selectbox(
+            coat_length_filter: str = st.selectbox(
                 "Coat Length:",
                 ["Any", "Short", "Medium", "Long"],
-                key="coat_length_filter"
+                key="coat_length_filter",
+            )
+
+            distance: int = st.selectbox(
+                "Distance", options=[35, 10, 20, 50], key="Distance_filter"
             )
 
             # Apply the sex filter if not "Any"
@@ -185,7 +188,9 @@ else:
 
             # Apply the age filter if not "Any"
             if ageGroup_filter != "Any":
-                valid_dogs = [dog for dog in valid_dogs if dog["ageGroup"] == ageGroup_filter]
+                valid_dogs = [
+                    dog for dog in valid_dogs if dog["ageGroup"] == ageGroup_filter
+                ]
 
             # Filter the dogs by the selected breed if not "All Breeds"
             if breed_filter != "All Breeds":
@@ -193,9 +198,9 @@ else:
 
             # Apply the coat length filter if not "Any"
             if coat_length_filter != "Any":
-                valid_dogs = [dog for dog in valid_dogs if dog["coatLength"] == coat_length_filter]
-
-
+                valid_dogs = [
+                    dog for dog in valid_dogs if dog["coatLength"] == coat_length_filter
+                ]
 
         # Display filtered results
         filtered_dogs = valid_dogs if valid_dogs else []
