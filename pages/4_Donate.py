@@ -1,6 +1,6 @@
 import streamlit as st
 import pathlib
-
+import time
 
 hide_st_style = """
             <style>
@@ -24,7 +24,7 @@ load_css(css_path)
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://wallpaperaccess.com/full/3019614.jpg");
+    background-image: url("https://s1.1zoom.me/big0/64/Dogs_Grass_Lying_down_Welsh_Corgi_Bokeh_585621_1280x853.jpg");
     background-size: cover;  
     background-position: center;  
     background-attachment: local; 
@@ -49,23 +49,43 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.title("Donate")
 st.header("All donations will go towards animal shelters")
 
-# Add a textbox with "Adopt a Pet" text
-# st.markdown(
-#     """
-#     <div class="textbox">
-#         This is the donation page!
-#     </div>
-#     """,
-#     unsafe_allow_html=True,
-# )
+# Use session state to control if the warning has been displayed
+if "warning_shown" not in st.session_state:
+    st.session_state.warning_shown = False
 
+# Create a placeholder for the warning message
+warning_placeholder = st.empty()
+
+# Display the warning message only if it hasn't been shown yet
+if not st.session_state.warning_shown:
+    # Display the warning message
+    warning_placeholder.warning(
+        "This is a fake donation page, please do not enter any real credentials that can compromise your safety and privacy, thank you."
+    )
+
+    # Wait for 2 seconds and then clear the warning
+    time.sleep(2)
+
+    # Clear the warning message
+    warning_placeholder.empty()
+
+    # Set the session state to indicate the warning has been shown
+    st.session_state.warning_shown = True
+
+# Now display the input widgets
 fName: list[str] = st.text_input("Full name:", placeholder="First Last").split()
 bAddress: str = st.text_input("Enter your billing address as it appears on the card")
 ccNumber: list[str] = st.text_input("Credit Card:").replace("-", " ").split()
 cvc = st.text_input(
     "Enter the Card Verification Number (CVC)", type="password", placeholder="***"
 )
-amount = st.text_input("Please enter amount to donate:")
 
-if fName and bAddress and ccNumber and cvc:
-    st.success(f"Thank you, {fName[0]}, {fName[1]} for donating ${int(amount) ** 2}")
+# Updated to allow decimal values for the donation amount
+amount = st.number_input("Please enter amount to donate:", min_value=0.0, format="%.2f")
+
+# Validate the amount to ensure it's a valid number (greater than 0)
+if amount <= 0:
+    st.error("Please enter a valid amount greater than 0.")
+else:
+    if fName and bAddress and ccNumber and cvc:
+        st.success(f"### Thank you, {fName[0]}, {fName[1]} for donating ${amount:.2f}!")
