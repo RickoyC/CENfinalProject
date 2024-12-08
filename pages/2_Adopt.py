@@ -169,6 +169,10 @@ else:
                 key="breed_filter"
             )
 
+            # Apply the sex filter if not "Any"
+            if sex_filter != "Any":
+                valid_dogs = [dog for dog in valid_dogs if dog["gender"] == sex_filter]
+
             # Filter the dogs by the selected breed if not "All Breeds"
             if breed_filter != "All Breeds":
                 valid_dogs = [dog for dog in valid_dogs if dog["breed"] == breed_filter]
