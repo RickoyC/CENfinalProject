@@ -99,6 +99,7 @@ else:
                     attributes = animal["attributes"]
                     name = attributes.get("name", "Unknown")
                     age = attributes.get("ageString", "Unknown")
+                    ageGroup = attributes.get("ageGroup", "Unknown")
                     breed = attributes.get("breedPrimary", "Unknown")
                     gender = attributes.get("sex", "Not specified")  # Male or Female
                     photo = attributes.get("pictureThumbnailUrl")  # Thumbnail URL
@@ -128,6 +129,7 @@ else:
                             {
                                 "name": name,
                                 "age": age,
+                                "ageGroup": ageGroup,
                                 "breed": breed,
                                 "gender": gender,
                                 "photo": photo,
@@ -156,7 +158,7 @@ else:
                 ["Any", "Male", "Female"],
                 key="sex_filter"
             )
-            age_filter = st.selectbox(
+            ageGroup_filter = st.selectbox(
                 "General Age Preference:",
                 ["Any", "Puppy", "Young", "Adult", "Senior"],
                 key="age_filter"
@@ -173,6 +175,10 @@ else:
             if sex_filter != "Any":
                 valid_dogs = [dog for dog in valid_dogs if dog["gender"] == sex_filter]
 
+            # Apply the age filter if not "Any"
+            if ageGroup_filter != "Any":
+                valid_dogs = [dog for dog in valid_dogs if dog["ageGroup"] == ageGroup_filter]
+
             # Filter the dogs by the selected breed if not "All Breeds"
             if breed_filter != "All Breeds":
                 valid_dogs = [dog for dog in valid_dogs if dog["breed"] == breed_filter]
@@ -184,13 +190,18 @@ else:
             )
 
         # Display filtered results
-        filtered_dogs = valid_dogs
-        num_pages = math.ceil(len(filtered_dogs) / page_size)
-        page = st.selectbox("Page", range(1, num_pages + 1), key="pagination")
+        filtered_dogs = valid_dogs if valid_dogs else []
 
-        start_idx = (page - 1) * page_size
-        end_idx = start_idx + page_size
-        current_page_dogs = filtered_dogs[start_idx:end_idx]
+        if len(filtered_dogs) > 0:
+            num_pages = math.ceil(len(filtered_dogs) / page_size)
+            page = st.selectbox("Page", range(1, num_pages + 1), key="pagination")
+
+            start_idx = (page - 1) * page_size
+            end_idx = start_idx + page_size
+            current_page_dogs = filtered_dogs[start_idx:end_idx]
+        else:
+            st.write("No dogs available for the selected filters.")
+            current_page_dogs = []
 
         cols = st.columns(3)  # Create three columns
         for i, dog in enumerate(current_page_dogs):
